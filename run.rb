@@ -2,6 +2,7 @@ require 'faker'
 require_relative 'classes/author'
 require_relative 'classes/book'
 require_relative 'classes/reader'
+require_relative 'classes/order'
 
 authors = []
 5.times do
@@ -24,9 +25,17 @@ readers = []
   )
 end
 
+orders = []
+
+5.times do
+  orders << Order.new(Faker::Book.title, Faker::Name.name, Time.now - rand(60*60*24*30))
+end
+
 puts "Authors:\n"
 puts authors
 puts "Books:\n"
 puts books
 puts "Readers:\n"
 puts readers
+puts "Orders:\n"
+puts orders
