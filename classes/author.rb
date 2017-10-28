@@ -1,10 +1,18 @@
 class Author
 
-  attr_accessor :name, :biography
+  attr_accessor :biography
+  attr_reader :name
 
   def initialize(name, biography)
+    self.name = name
+    self.biography = biography
+  end
+
+  def name=(name)
+    if name.to_s.empty? || name.nil?
+      raise "Empty author name"
+    end
     @name = name
-    @biography = biography
   end
 
   def to_s
