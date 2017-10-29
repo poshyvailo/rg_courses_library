@@ -2,26 +2,32 @@
 
 DOCKER_IMAGE='poshik-library:latest'
 
-# Обновление докер образа
-if [[ $1 == 'rebuild' ]]; then
-    sudo docker rmi $DOCKER_IMAGE
+create_docker_image() {
     cp Gemfile docker/Gemfile
     docker build -t $DOCKER_IMAGE docker
     rm docker/Gemfile
+}
+
+remove_docker_image() {
+    sudo docker rmi $DOCKER_IMAGE
+}
+
+# Обновление докер образа
+if [[ $1 == 'rebuild' ]]; then
+    remove_docker_image
+    create_docker_image
     exit 0
 fi
 
 # Удаление докер образа
-if [[ $1 == 'rmi' ]]; then
-    sudo docker rmi $DOCKER_IMAGE
+if [[ $1 == 'remove' ]]; then
+    remove_docker_image
     exit 0
 fi
 
 # Создаем новый образ, если его еще нет в системе.
 if [[ "$(docker images -q $DOCKER_IMAGE 2> /dev/null)" == "" ]]; then
-    cp Gemfile docker/Gemfile
-    docker build -t $DOCKER_IMAGE docker
-    rm docker/Gemfile
+    create_docker_image
 fi
 
 if [[ -n "$1" ]]; then
