@@ -8,6 +8,10 @@ class Order
     @date = date
   end
 
+  #todo add book validate
+  #todo add reader validate
+  #todo add date validate
+
   def to_s
     "Book: #{book}; Reader: #{reader}; Date: #{date.strftime("%d.%m.%Y %H:%M")}"
   end

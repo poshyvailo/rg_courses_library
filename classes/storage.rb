@@ -2,17 +2,18 @@ require 'yaml'
 
 class Storage
 
-  @@FileName = 'storage.yml'
+  @@FileName = 'library.yml'
 
   def Storage.load
-    unless File.exist?(@@FileName)
-      raise "Not Found file #{@@FileName}"
-    end
-    YAML::load(File.open(@@FileName))
+    YAML::load(File.open(@@FileName)) if self.storage_exist?
   end
 
   def Storage.save (object)
     File.open(@@FileName, 'w') { |file| file.write(YAML::dump(object)) }
+  end
+
+  def Storage.storage_exist?
+    File.exist?(@@FileName)
   end
 
 end

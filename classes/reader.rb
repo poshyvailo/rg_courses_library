@@ -10,6 +10,12 @@ class Reader
     @house = house
   end
 
+  #todo name validate
+  #todo email validate
+  #todo city validate
+  #todo street validate
+  #todo house validate
+
   def to_s
     "Reader name: #{name}; Email: #{email}; Address: #{city}, #{street}, #{house}"
   end
