@@ -41,35 +41,40 @@ class Library
     output
   end
 
-  # Who often takes the book
   def often_takes
-    counts = Hash.new(0)
-    orders.each { |item| counts[:"#{item.reader.name}"] += 1 }
-    counts.sort_by {|key, value| value}.reverse.first
-
-    #todo Учесть возможность того что несколько человек может взять одинаковое кол-во книг!
+    rating('reader').first
   end
 
-  # What is the most popular book
   def popular_book
-    counts = Hash.new(0)
-    orders.each { |item| counts[:"#{item.book.title}"] += 1 }
-    counts.sort_by {|key, value| value}.reverse.first
-    #todo Учесть возможность того что несколько человек может взять одинаковое кол-во книг!
+    rating('book').first
   end
 
-  # How many people ordered one of the three most popular books
-  def reader_popular_books
-    counts = Hash.new(0)
-    orders.each { |item| counts[:"#{item.book.title}"] += 1 }
-    counts.sort_by {|key, value| value}.reverse.each { |key, value|
-        count_readers = Hash.new(0)
-        orders.each { |item|
-          count_readers[:"#{item.reader.name}"] += 1  if key.to_s == item.book.title
-        }
-        counts[key] = count_readers.count
-    }
-    counts
+  def counts_reader_popular_books
+    result = Hash.new(0)
+    rating('book').first(3).each do |book|
+      result[:"#{book[0].to_s}"] = orders.select { |order|
+        order.book.title == book[0].to_s
+      }.uniq { |o| o.reader.name }.count
+    end
+    result
+  end
+
+  private
+
+  def rating (key)
+    case key.to_s
+      when 'book'
+        param = :title
+      when 'reader'
+        param = :name
+      else
+        raise "Wrong argument of rating method! (#{key}) "
+    end
+    #todo Учесть возможность того что несколько человек может взять одинаковое кол-во книг!
+    rating_list = orders.each_with_object(Hash.new(0)) do |order, count|
+      count[:"#{order.public_send(key.to_sym).public_send(param)}"] += 1
+    end
+    rating_list.sort_by {|__, v| v}.reverse
   end
 
 end
