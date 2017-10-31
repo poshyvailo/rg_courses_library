@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
+# Storage class
 class Storage
 
-  @@FileName = 'library.yml'
+  @file_name = 'library.yml'
 
-  def Storage.load
-    YAML::load(File.open(@@FileName)) if self.storage_exist?
+  def self.load
+    YAML.load(File.open(@file_name)) if storage_exist?
   end
 
-  def Storage.save (object)
-    File.open(@@FileName, 'w') { |file| file.write(YAML::dump(object)) }
+  def self.save(object)
+    File.open(@file_name, 'w') { |file| file.write(YAML.dump(object)) }
   end
 
-  def Storage.storage_exist?
-    File.exist?(@@FileName)
+  def self.storage_exist?
+    File.exist?(@file_name)
   end
-
 end

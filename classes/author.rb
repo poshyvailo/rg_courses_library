@@ -1,5 +1,7 @@
-class Author
+# frozen_string_literal: true
 
+# Author class
+class Author
   attr_accessor :biography
   attr_reader :name
 
@@ -9,9 +11,7 @@ class Author
   end
 
   def name=(name)
-    if name.to_s.empty? || name.nil?
-      raise "Empty author name"
-    end
+    raise 'Empty author name' if name.to_s.empty? || name.nil?
     @name = name
   end
 

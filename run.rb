@@ -1,23 +1,27 @@
+# frozen_string_literal: true
+
 require 'faker'
 require_relative 'classes/library'
 
 lib = Library.new
 
 #Test author wrong data
-# puts Author.new('', 'bio') #Error
+author = Author.new('', 'bio') #Error
 # puts Author.new(nil, 'bio') #Error
 # puts Author.new(123, 'bio')
 # puts Author.new("Fred", nil)
-author = Author.new("Fred", 'bio')
+# author = Author.new("Fred", 'bio')
+
+puts author.name
 
 #Test book wrong data
 # puts Book.new('', author)
 # puts Book.new(nil, author)
 # puts Book.new('Book title', 'author')
 # puts Book.new('Book title', nil)
-book = Book.new('Ruby Book', author)
+# book = Book.new('Ruby Book', author)
 
-puts book
+# puts book
 
 #Test reader wrong data
 

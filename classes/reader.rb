@@ -1,5 +1,7 @@
-class Reader
+# frozen_string_literal: true
 
+# Reader class
+class Reader
   attr_accessor :name, :email, :city, :street, :house
 
   def initialize(name, email, city, street, house)
@@ -10,11 +12,11 @@ class Reader
     @house = house
   end
 
-  #todo name validate
-  #todo email validate
-  #todo city validate
-  #todo street validate
-  #todo house validate
+  # TODO: name validate
+  # TODO: email validate
+  # TODO: city validate
+  # TODO: street validate
+  # TODO: house validate
 
   def to_s
     "Reader name: #{name}; Email: #{email}; Address: #{city}, #{street}, #{house}"
