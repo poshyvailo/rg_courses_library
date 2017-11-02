@@ -16,7 +16,7 @@ class Book
 
   def author=(author)
     unless author.is_a? Author
-      raise 'The author should be an object of class Author'
+      raise 'The "author" should be an object of class Author'
     end
     @author = author
   end

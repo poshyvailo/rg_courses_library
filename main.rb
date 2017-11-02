@@ -29,15 +29,15 @@ else
   generate(library)
 end
 
-puts 'Who often takes the book?'
+print 'Who often takes the book? - '
 reader = library.often_takes
-puts "Reader #{reader[0]} takes #{reader[1]} books"
+puts "Reader \"#{reader[0]}\" takes #{reader[1]} books"
 
-puts 'What is the most popular book'
-book =  library.popular_book
+print 'What is the most popular book? - '
+book = library.popular_book
 puts "The most popular book \"#{book[0]}\", #{book[1]} takes"
 
-puts 'How many people ordered one of the three most popular books'
+puts 'How many people ordered one of the three most popular books?'
 books = library.counts_reader_popular_books
 books.each do |item|
   puts "\"#{item[0]}\" - #{item[1]}"

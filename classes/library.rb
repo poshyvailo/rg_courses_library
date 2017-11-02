@@ -27,20 +27,8 @@ class Library
     when Order
       @orders << item
     else
-      raise 'Wrong item class!'
+      raise "The object \"#{item}\" does not have the appropriate class"
     end
-  end
-
-  def to_s
-    output = ''
-    instance_variables.each do |variable|
-      variable = variable.to_s.sub(/^@/, '')
-      output << variable.capitalize + ":\n"
-      send(variable).each do |item|
-        output << item.to_s + "\n"
-      end
-    end
-    output
   end
 
   def often_takes
@@ -77,7 +65,6 @@ class Library
   end
 
   def rating_list(field, attr)
-    # TODO: Учесть возможность того что несколько человек может взять одинаковое кол-во книг!
     orders.each_with_object(Hash.new(0)) do |order, count|
       count[:"#{order.public_send(field.to_sym).public_send(attr)}"] += 1
     end

@@ -4,8 +4,9 @@ DOCKER_IMAGE='poshik-library:latest'
 
 create_docker_image() {
     cp Gemfile docker/Gemfile
+    cp Gemfile.lock docker/Gemfile.lock
     docker build -t $DOCKER_IMAGE docker
-    rm docker/Gemfile
+    rm docker/Gemfile docker/Gemfile.lock
 }
 
 remove_docker_image() {
@@ -20,7 +21,7 @@ if [[ $1 == 'rebuild' ]]; then
 fi
 
 # Удаление докер образа
-if [[ $1 == 'remove' ]]; then
+if [[ $1 == 'rmi' ]]; then
     remove_docker_image
     exit 0
 fi
@@ -33,7 +34,7 @@ fi
 if [[ -n "$1" ]]; then
     arg=$1
 else
-    arg='run.rb'
+    arg='main.rb'
 fi
 
 # Запускаем образ на выполнение

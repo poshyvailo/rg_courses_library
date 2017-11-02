@@ -2,17 +2,32 @@
 
 # Order class
 class Order
-  attr_accessor :book, :reader, :date
+  attr_reader :book, :reader, :date
 
   def initialize(book, reader, date = Time.now)
-    @book = book
-    @reader = reader
-    @date = date
+    self.book = book
+    self.reader = reader
+    self.date = date
   end
 
-  # TODO: add book validate
-  # TODO: add reader validate
-  # TODO: add date validate
+  def reader=(reader)
+    raise 'The "reader" should be an object of class Reader' unless reader.is_a? Reader
+    @reader = reader
+  end
+
+  def book=(book)
+    raise 'The "book" should be an object of class Book' unless book.is_a? Book
+    @book = book
+  end
+
+  def date=(date)
+    @date = date date.is_a? Time
+    begin
+      Date.parse(date)
+    rescue ArgumentError
+      @date = Time.now
+    end
+  end
 
   def to_s
     "Book: #{book}; Reader: #{reader}; Date: #{date.strftime('%d.%m.%Y %H:%M')}"

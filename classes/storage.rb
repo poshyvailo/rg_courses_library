@@ -5,17 +5,17 @@ require 'yaml'
 # Storage class
 class Storage
 
-  @file_name = 'library.yml'
+  FILE_NAME = 'library.yml'
 
   def self.load
-    YAML.load(File.open(@file_name)) if storage_exist?
+    YAML.load(File.open(FILE_NAME)) if storage_exist?
   end
 
   def self.save(object)
-    File.open(@file_name, 'w') { |file| file.write(YAML.dump(object)) }
+    File.open(FILE_NAME, 'w') { |file| file.write(YAML.dump(object)) }
   end
 
   def self.storage_exist?
-    File.exist?(@file_name)
+    File.exist?(FILE_NAME)
   end
 end
