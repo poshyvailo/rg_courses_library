@@ -21,12 +21,15 @@ class Order
   end
 
   def date=(date)
-    @date = date date.is_a? Time
-    begin
-      Date.parse(date)
-    rescue ArgumentError
-      @date = Time.now
-    end
+    @date = if date.is_a? Time
+              date
+            else
+              begin
+                Date.parse(date)
+              rescue ArgumentError
+                @date = Time.now
+              end
+            end
   end
 
   def to_s
