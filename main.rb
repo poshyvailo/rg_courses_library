@@ -4,21 +4,21 @@ require 'faker'
 require_relative 'classes/storage'
 require_relative 'classes/library'
 
-def generate (library)
+def generate(library)
   10.times { library << Author.new(Faker::Book.author, Faker::Lorem.paragraph) }
   30.times { library << Book.new(Faker::Book.title, library.authors.sample) }
-  30.times {
+  30.times do
     library << Reader.new(Faker::Name.name,
                           Faker::Internet.email,
-                          Faker::Address.city,
-                          Faker::Address.street_name,
-                          Faker::Address.building_number)
-  }
-  500.times {
+                          city: Faker::Address.city,
+                          street: Faker::Address.street_name,
+                          house: Faker::Address.building_number)
+  end
+  500.times do
     library << Order.new(library.books.sample,
                          library.readers.sample,
                          Time.now - rand(60 * 60 * 24 * 30))
-  }
+  end
 end
 
 library = Library.new
@@ -42,5 +42,7 @@ books = library.counts_reader_popular_books
 books.each do |item|
   puts "\"#{item[0]}\" - #{item[1]}"
 end
+
+# p library.book_rating_list
 
 Storage.save(library)

@@ -4,12 +4,12 @@
 class Reader
   attr_reader :name, :email, :city, :street, :house
 
-  def initialize(name, email, city, street, house)
+  def initialize(name, email, address = {})
     self.name = name
     self.email = email
-    self.city = city
-    self.street = street
-    self.house = house
+    self.city = address[:city]
+    self.street = address[:street]
+    self.house = address[:house]
   end
 
   def name=(name)

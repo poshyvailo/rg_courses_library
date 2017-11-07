@@ -32,41 +32,40 @@ class Library
   end
 
   def often_takes
-    rating('reader').first
+    reader_rating_list.first
   end
 
   def popular_book
-    rating('book').first
+    book_rating_list.first
   end
 
   def counts_reader_popular_books
-    result = Hash.new(0)
-    rating('book').first(3).each do |book|
-      count = orders.select do |order|
-        order.book.title == book[0].to_s
-      end
-      result[:"#{book[0].to_s}"] = count.uniq { |o| o.reader.name }.count
+    book_list = book_rating_list.first(3).to_h
+    book_list.each_key.with_object(Hash.new(0)) do |book_title, result|
+      result[book_title.to_s] = book_readers(book_title)
     end
-    result
   end
 
   private
 
-  def rating(field)
-    case field.to_s
-    when 'book'
-      attr = :title
-    when 'reader'
-      attr = :name
-    else
-      raise "Wrong argument of rating method! (#{key})"
+  def book_readers(book_title)
+    all_readers = orders.select do |order|
+      order.book.title == book_title.to_s
     end
-    rating_list(field, attr).sort_by { |__, value| value }.reverse
+    all_readers.uniq { |order| order.reader.name }.count
   end
 
-  def rating_list(field, attr)
-    orders.each_with_object(Hash.new(0)) do |order, count|
-      count[:"#{order.public_send(field.to_sym).public_send(attr)}"] += 1
+  def book_rating_list
+    list = orders.each_with_object(Hash.new(0)) do |order, rating|
+      rating[:"#{order.book.title}"] += 1
     end
+    list.sort_by { |__, value| value }.reverse
+  end
+
+  def reader_rating_list
+    list = orders.each_with_object(Hash.new(0)) do |order, rating|
+      rating[:"#{order.reader.name}"] += 1
+    end
+    list.sort_by { |__, value| value }.reverse
   end
 end
